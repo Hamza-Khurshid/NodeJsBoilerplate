@@ -1,0 +1,31 @@
+{
+  "name": "nodejsboilerplate",
+  "version": "1.0.0",
+  "description": "A ready to use node js server with session, multer and routes.",
+  "main": "app.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "mongoose": "^5.7.13",
+    "nodemon": "^2.0.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hamza-Khurshid/NodeJsBoilerplate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hamza-Khurshid/NodeJsBoilerplate/issues"
+  },
+  "homepage": "https://github.com/Hamza-Khurshid/NodeJsBoilerplate#readme"
+}
