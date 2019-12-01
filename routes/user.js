@@ -103,18 +103,30 @@ app.post('/login', (req, res, next) => {
         }
 
         if(user) {
-            console.log("user: ", user)
-            res.send({
-                user: {
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email,
-                },
-                errors: [],
-                type: 'success',
-                message: 'You are logged in successfully.'
-            })
-            next()
+            req.logIn(user, function(err) {
+                if(err) {
+                    console.log("err loging in:", err)
+                    errors.push(err)
+                    res.send({
+                        errors,
+                        type: 'error'
+                    })
+                    next()
+                } else {
+                    console.log("user: ", user)
+                    res.send({
+                        user: {
+                            _id: user._id,
+                            name: user.name,
+                            email: user.email,
+                        },
+                        errors: [],
+                        type: 'success',
+                        message: 'You are logged in successfully.'
+                    })
+                    next()
+                }
+            });
         }
     })(req, res,next)
 })
