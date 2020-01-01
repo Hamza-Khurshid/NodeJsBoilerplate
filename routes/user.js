@@ -3,6 +3,7 @@ var app = express.Router();
 var User = require('../models/User');
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
+var multer = require('multer');
 
 
 function validateEmail(email) {
@@ -10,9 +11,23 @@ function validateEmail(email) {
     return re.test(email);
 }
 
+
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './uploads')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now()+file.originalname)
+    }
+  })
+   
+var upload = multer({ storage: storage })
+
 // Register route
-app.post('/register', (req, res) => {
+app.post('/register', upload.single('profile'), (req, res) => {
     let { name, email, password } = req.body;
+    console.log("Body===> ", req.file)
 
     // Validation
     let errors = [];
@@ -27,6 +42,10 @@ app.post('/register', (req, res) => {
 
     if(password && password.length < 8) {
         errors.push({ message: 'Password should be of minimum 8 characters.' })
+    }
+
+    if(!req.file) {
+        errors.push({ message: 'Profile image is required.' })
     }
 
     if(errors.length > 0) {
@@ -51,7 +70,8 @@ app.post('/register', (req, res) => {
                     let user = new User({
                         name,
                         email,
-                        password
+                        password,
+                        profile: req.file.path
                     })
 
                     bcrypt.genSalt(10, (hash, salt) => 
